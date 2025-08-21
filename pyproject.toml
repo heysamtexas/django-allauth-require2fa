@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "django-allauth-require2fa"
-dynamic = ["version"]
+version = "0.1.0"
 description = "Site-wide Two-Factor Authentication enforcement middleware for Django applications using django-allauth"
 readme = "README.md"
 license = "MIT"
@@ -62,11 +62,27 @@ Repository = "https://github.com/heysamtexas/django-allauth-require2fa.git"
 Issues = "https://github.com/heysamtexas/django-allauth-require2fa/issues"
 Changelog = "https://github.com/heysamtexas/django-allauth-require2fa/blob/main/CHANGELOG.md"
 
-[tool.hatch.version]
-path = "require2fa/__init__.py"
-
 [tool.hatch.build.targets.wheel]
 packages = ["require2fa"]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version", "require2fa/__init__.py:__version__"]
+build_command = "uv build"
+commit_parser = "conventional"
+upload_to_pypi = false  # We'll use existing trusted publishing workflow
+push = true
+vcs_release = true
+
+[tool.semantic_release.commit_parser_options]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf", "refactor"]
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = [
+    '''chore(?:\([^)]*?\))?: .+''',
+    '''ci(?:\([^)]*?\))?: .+''',
+    '''docs(?:\([^)]*?\))?: .+''',
+]
 
 [tool.ruff]
 target-version = "py312"
@@ -143,4 +159,5 @@ dev = [
     "bandit>=1.8.6",
     "django-stubs>=5.2.2",
     "mypy>=1.17.1",
+    "python-semantic-release>=10.3.1",
 ]
