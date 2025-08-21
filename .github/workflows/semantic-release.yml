@@ -70,13 +70,13 @@ jobs:
         if: steps.check-commits.outputs.should-release == 'true'
         run: |
           echo "🔍 Running linting..."
-          uv run ruff check .
+          uv run --extra dev ruff check .
           echo "🎨 Checking formatting..."
-          uv run ruff format --check .
+          uv run --extra dev ruff format --check .
           echo "🔒 Running security checks..."
-          uv run bandit -r require2fa/ --exclude require2fa/tests/
+          uv run --extra dev bandit -r require2fa/ --exclude require2fa/tests/
           echo "🔍 Running type checks..."
-          uv run mypy require2fa/
+          uv run --extra dev mypy require2fa/
 
       - name: Run tests
         if: steps.check-commits.outputs.should-release == 'true'

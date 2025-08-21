@@ -74,5 +74,6 @@ jobs:
         if: always()
         with:
           name: codeql-results-${{ matrix.language }}
-          path: ../results/
+          path: codeql-results*.sarif
           retention-days: 7
+          if-no-files-found: ignore
