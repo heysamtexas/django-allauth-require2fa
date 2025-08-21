@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial release of django-require2fa package
+- Initial release of django-allauth-require2fa package
 - Site-wide 2FA enforcement middleware
 - Runtime configuration via Django admin
 - Security-hardened URL resolution

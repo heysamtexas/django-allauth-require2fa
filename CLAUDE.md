@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is `django-require2fa`, a standalone PyPI package that provides site-wide Two-Factor Authentication (2FA) enforcement middleware for Django applications. Originally extracted from a Django module, this repo is designed to be a fully installable package for Django projects using django-allauth.
+This is `django-allauth-require2fa`, a standalone PyPI package that provides site-wide Two-Factor Authentication (2FA) enforcement middleware for Django applications. Originally extracted from a Django module, this repo is designed to be a fully installable package for Django projects using django-allauth.
 
 ### Key Purpose
 - Enforces 2FA for all authenticated users across entire Django applications
@@ -182,10 +182,10 @@ GitHub Actions workflow includes:
 ### Installation from PyPI
 ```bash
 # Standard installation
-pip install django-require2fa
+pip install django-allauth-require2fa
 
 # With uv (recommended)
-uv add django-require2fa
+uv add django-allauth-require2fa
 
 # Development installation
 pip install -e .
@@ -194,7 +194,7 @@ pip install -e .
 ## Django Integration
 
 ### Installation Steps
-1. Install package: `uv add django-require2fa`
+1. Install package: `uv add django-allauth-require2fa`
 2. Add to `INSTALLED_APPS`: `'require2fa'`
 3. Add middleware: `'require2fa.middleware.Require2FAMiddleware'`
 4. Run migrations: `python manage.py migrate require2fa`

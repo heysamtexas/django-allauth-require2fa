@@ -1,4 +1,4 @@
-# Makefile for django-require2fa development
+# Makefile for django-allauth-require2fa development
 .PHONY: help test lint format security install quality all clean
 
 help: ## Show this help message

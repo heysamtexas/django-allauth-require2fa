@@ -113,7 +113,7 @@ This app is designed to be **extracted into a standalone Django package**:
 
 ### Target Package Structure
 ```
-django-require2fa/
+django-allauth-require2fa/
 ├── pyproject.toml       # Modern Python packaging
 ├── README.md           # Installation & usage docs
 ├── LICENSE             # Open source license

@@ -1,6 +1,6 @@
 """Minimal Django settings for testing require2fa package."""
 
-SECRET_KEY = "test-secret-key-for-django-require2fa-tests"
+SECRET_KEY = "test-secret-key-for-django-allauth-require2fa-tests"
 
 DEBUG = True
 

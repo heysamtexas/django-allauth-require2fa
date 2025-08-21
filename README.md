@@ -1,10 +1,10 @@
 # Django Require 2FA
 
-[![PyPI version](https://badge.fury.io/py/django-require2fa.svg)](https://badge.fury.io/py/django-require2fa)
+[![PyPI version](https://badge.fury.io/py/django-allauth-require2fa.svg)](https://badge.fury.io/py/django-allauth-require2fa)
 [![Test](https://github.com/heysamtexas/django-allauth-require2fa/actions/workflows/test.yml/badge.svg)](https://github.com/heysamtexas/django-allauth-require2fa/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/heysamtexas/django-allauth-require2fa/branch/main/graph/badge.svg)](https://codecov.io/gh/heysamtexas/django-allauth-require2fa)
-[![Python versions](https://img.shields.io/pypi/pyversions/django-require2fa.svg)](https://pypi.org/project/django-require2fa/)
-[![Django versions](https://img.shields.io/pypi/djversions/django-require2fa.svg)](https://pypi.org/project/django-require2fa/)
+[![Python versions](https://img.shields.io/pypi/pyversions/django-allauth-require2fa.svg)](https://pypi.org/project/django-allauth-require2fa/)
+[![Django versions](https://img.shields.io/pypi/djversions/django-allauth-require2fa.svg)](https://pypi.org/project/django-allauth-require2fa/)
 
 A production-ready Django package that enforces Two-Factor Authentication (2FA) across your entire application.
 
@@ -57,13 +57,13 @@ This package provides what the **rejected django-allauth PR attempted**, but wit
 Install from PyPI:
 
 ```bash
-pip install django-require2fa
+pip install django-allauth-require2fa
 ```
 
 Or with uv (recommended):
 
 ```bash
-uv add django-require2fa
+uv add django-allauth-require2fa
 ```
 
 ## Quick Start
