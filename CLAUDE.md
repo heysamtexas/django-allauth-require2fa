@@ -30,31 +30,44 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 ```
 
-### Code Quality and Security
+### Development Commands (Makefile)
+
+The project includes a Makefile for convenient development tasks:
+
 ```bash
-# Lint and format with ruff
-uv run ruff check .                    # Check for issues
-uv run ruff format .                   # Auto-format code
-uv run ruff check --fix .              # Auto-fix issues
+# Development setup (one-time)
+make dev-setup                        # Install deps + pre-commit hooks
 
-# Security scanning with bandit
-uv run bandit -r require2fa/           # Security checks
+# Testing
+make test                              # Run Django tests
+make mypy                              # Run type checking
 
-# Pre-commit hooks (run automatically before commits)
-uv run pre-commit install             # Install hooks
-uv run pre-commit run --all-files     # Run all hooks manually
+# Code Quality
+make format                            # Auto-format with ruff
+make lint                              # Check code with ruff  
+make security                          # Run bandit security scan
+make quality                           # Run all quality checks
+
+# Workflows
+make all                               # Full workflow (install + quality + test)
+make clean                             # Clean generated files
+make help                              # Show all available commands
 ```
 
-### Testing
+### Manual Commands (if needed)
 ```bash
-# Run the comprehensive test suite (15 security tests)
-uv run python -m pytest require2fa/tests/
+# Testing
+uv run python -m django test require2fa.tests --settings=require2fa.tests.settings --verbosity=2
 
-# Test with coverage
-uv run pytest --cov=require2fa require2fa/tests/
+# Code Quality  
+uv run ruff check .                    # Check for issues
+uv run ruff format .                   # Auto-format code
+uv run bandit -r require2fa/           # Security checks
+uv run mypy require2fa/                # Type checking
 
-# For Django integration testing
-uv run python manage.py test require2fa  # If in Django project
+# Pre-commit hooks
+uv run pre-commit install             # Install hooks
+uv run pre-commit run --all-files     # Run all hooks manually
 ```
 
 The test suite includes 15 comprehensive security tests covering:

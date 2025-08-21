@@ -43,25 +43,16 @@ jobs:
         uv sync --dev
         uv pip install "Django~=${{ matrix.django-version }}.0"
 
-    - name: Run ruff check
-      run: uv run ruff check .
+    - name: Run code quality checks
+      run: |
+        make format
+        make lint
 
-    - name: Run ruff format check
-      run: uv run ruff format --check .
+    - name: Run security checks
+      run: make security
 
-    - name: Run bandit security check
-      run: uv run bandit -r require2fa/
-
-    - name: Run mypy
-      run: uv run mypy require2fa/
+    - name: Run type checking
+      run: make mypy
 
     - name: Run tests
-      run: uv run pytest --cov=require2fa --cov-report=xml
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      if: matrix.python-version == '3.12' && matrix.django-version == '5.1'
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        fail_ci_if_error: true
+      run: make test

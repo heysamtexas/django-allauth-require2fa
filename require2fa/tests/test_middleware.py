@@ -1,9 +1,7 @@
 """Integration test suite for 2FA middleware security."""
 
-from unittest.mock import patch
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client, override_settings
-from django.urls import reverse
+from django.test import Client, TestCase, override_settings
 
 from require2fa.models import TwoFactorConfig
 
@@ -21,7 +19,7 @@ class Require2FAMiddlewareIntegrationTest(TestCase):
         self.user = User.objects.create_user(username="testuser", email="test@example.com", password="testpass123")
 
         # Enable 2FA site-wide (get_or_create for singleton)
-        self.config, created = TwoFactorConfig.objects.get_or_create(defaults={'required': True})
+        self.config, created = TwoFactorConfig.objects.get_or_create(defaults={"required": True})
         if not created:
             self.config.required = True
             self.config.save()
@@ -190,7 +188,7 @@ class SecurityRegressionTest(TestCase):
         """Set up test with 2FA enabled."""
         self.client = Client()
         self.user = User.objects.create_user(username="testuser", email="test@example.com", password="testpass123")
-        config, created = TwoFactorConfig.objects.get_or_create(defaults={'required': True})
+        config, created = TwoFactorConfig.objects.get_or_create(defaults={"required": True})
         if not created:
             config.required = True
             config.save()
@@ -240,7 +238,7 @@ class ConfigurationSecurityTest(TestCase):
         """Set up test environment."""
         self.client = Client()
         self.user = User.objects.create_user(username="testuser", email="test@example.com", password="testpass123")
-        config, created = TwoFactorConfig.objects.get_or_create(defaults={'required': True})
+        config, created = TwoFactorConfig.objects.get_or_create(defaults={"required": True})
         if not created:
             config.required = True
             config.save()
@@ -255,8 +253,7 @@ class ConfigurationSecurityTest(TestCase):
 
         # Should redirect to 2FA setup, not bypass security
         if response.status_code == 302:
-            self.assertEqual(response.url, "/accounts/2fa/",
-                           "Root path should require 2FA even with MEDIA_URL='/'")
+            self.assertEqual(response.url, "/accounts/2fa/", "Root path should require 2FA even with MEDIA_URL='/'")
 
     @override_settings(STATIC_URL="/", MEDIA_URL="/media/")
     def test_dangerous_static_url_root_path_blocked(self):
@@ -268,8 +265,7 @@ class ConfigurationSecurityTest(TestCase):
 
         # Should redirect to 2FA setup, not bypass security
         if response.status_code == 302:
-            self.assertEqual(response.url, "/accounts/2fa/",
-                           "Root path should require 2FA even with STATIC_URL='/'")
+            self.assertEqual(response.url, "/accounts/2fa/", "Root path should require 2FA even with STATIC_URL='/'")
 
     # Note: Django prevents STATIC_URL and MEDIA_URL from both being "/"
     # so we test individual cases above
@@ -291,13 +287,14 @@ class ConfigurationSecurityTest(TestCase):
 
     def test_missing_media_url_edge_case(self):
         """Test middleware behavior when getattr is used with safe defaults."""
-        from require2fa.middleware import Require2FAMiddleware
         from django.test import RequestFactory
-        from django.conf import settings
+
+        from require2fa.middleware import Require2FAMiddleware
 
         # Create a middleware instance to test directly
-        def dummy_response(req):
+        def dummy_response(_req):
             return None
+
         middleware = Require2FAMiddleware(dummy_response)
 
         # Create test request
@@ -310,13 +307,11 @@ class ConfigurationSecurityTest(TestCase):
 
         # Root path "/" should never be considered a static request
         # regardless of MEDIA_URL configuration edge cases
-        self.assertFalse(is_static,
-                        "Root path should never be treated as static file request")
+        self.assertFalse(is_static, "Root path should never be treated as static file request")
 
         # Test with a proper media path
         media_request = factory.get("/media/test.jpg")
         is_media_static = middleware._is_static_request(media_request)
 
         # Proper media paths should be treated as static
-        self.assertTrue(is_media_static,
-                       "Proper media paths should be treated as static file requests")
+        self.assertTrue(is_media_static, "Proper media paths should be treated as static file requests")

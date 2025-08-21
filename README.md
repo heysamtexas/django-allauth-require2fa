@@ -1,8 +1,8 @@
 # Django Require 2FA
 
 [![PyPI version](https://badge.fury.io/py/django-require2fa.svg)](https://badge.fury.io/py/django-require2fa)
-[![Test](https://github.com/your-org/django-require2fa/actions/workflows/test.yml/badge.svg)](https://github.com/your-org/django-require2fa/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/your-org/django-require2fa/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/django-require2fa)
+[![Test](https://github.com/heysamtexas/django-allauth-require2fa/actions/workflows/test.yml/badge.svg)](https://github.com/heysamtexas/django-allauth-require2fa/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/heysamtexas/django-allauth-require2fa/branch/main/graph/badge.svg)](https://codecov.io/gh/heysamtexas/django-allauth-require2fa)
 [![Python versions](https://img.shields.io/pypi/pyversions/django-require2fa.svg)](https://pypi.org/project/django-require2fa/)
 [![Django versions](https://img.shields.io/pypi/djversions/django-require2fa.svg)](https://pypi.org/project/django-require2fa/)
 
@@ -143,11 +143,11 @@ This package includes 15 comprehensive security tests covering:
 - Regression tests for known vulnerabilities
 
 ```bash
-# Run tests
-python manage.py test require2fa
+# Run tests (standalone package)
+python -m django test require2fa.tests --settings=require2fa.tests.settings
 
-# Or with pytest
-pytest require2fa/tests/
+# Or in a Django project (after installation)
+python manage.py test require2fa
 ```
 
 ## Security
@@ -173,25 +173,57 @@ Contributions are welcome! Please ensure:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/django-require2fa.git
-cd django-require2fa
+git clone https://github.com/heysamtexas/django-allauth-require2fa.git
+cd django-allauth-require2fa
 
-# Install uv
+# Install uv (if not already installed)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Install dependencies
-uv sync --dev
+# Set up development environment (one command!)
+make dev-setup
 
-# Install pre-commit hooks
+# Run tests to verify setup
+make test
+```
+
+### Development Commands
+
+The project uses a Makefile for convenient development tasks:
+
+```bash
+# Testing and Quality
+make test                    # Run Django tests
+make quality                 # Run all code quality checks (format, lint, security, mypy)
+make all                     # Full workflow (install + quality + test)
+
+# Individual Quality Checks  
+make format                  # Auto-format code with ruff
+make lint                    # Check code style with ruff
+make security               # Run security scan with bandit
+make mypy                   # Run type checking
+
+# Development Utilities
+make clean                  # Clean up generated files
+make help                   # Show all available commands
+```
+
+### Manual Commands (Alternative)
+
+If you prefer running commands directly:
+
+```bash
+# Install and setup
+uv sync --dev
 uv run pre-commit install
 
-# Run tests
-uv run pytest
+# Testing
+uv run python -m django test require2fa.tests --settings=require2fa.tests.settings
 
-# Run code quality checks
-uv run ruff check .
+# Code quality
 uv run ruff format .
+uv run ruff check .
 uv run bandit -r require2fa/
+uv run mypy require2fa/
 ```
 
 ## License

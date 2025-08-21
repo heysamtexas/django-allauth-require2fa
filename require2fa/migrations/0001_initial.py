@@ -4,21 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='TwoFactorConfig',
+            name="TwoFactorConfig",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('required', models.BooleanField(default=False, help_text='Require 2FA for all authenticated users.', verbose_name='Require Two-Factor Authentication')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "required",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Require 2FA for all authenticated users.",
+                        verbose_name="Require Two-Factor Authentication",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Two-Factor Authentication Configuration',
+                "verbose_name": "Two-Factor Authentication Configuration",
             },
         ),
     ]

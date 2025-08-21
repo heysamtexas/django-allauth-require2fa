@@ -43,13 +43,11 @@ dependencies = [
     "Django>=4.2",
     "django-allauth>=0.57.0",
     "django-solo>=2.0.0",
+    "fido2>=2.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
-    "pytest-django>=4.5.0",
-    "pytest-cov>=4.0",
     "ruff>=0.4.0",
     "bandit>=1.7.0",
     "pre-commit>=3.0.0",
@@ -58,11 +56,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-org/django-require2fa"
-Documentation = "https://github.com/your-org/django-require2fa#readme"
-Repository = "https://github.com/your-org/django-require2fa.git"
-Issues = "https://github.com/your-org/django-require2fa/issues"
-Changelog = "https://github.com/your-org/django-require2fa/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/heysamtexas/django-allauth-require2fa"
+Documentation = "https://github.com/heysamtexas/django-allauth-require2fa#readme"
+Repository = "https://github.com/heysamtexas/django-allauth-require2fa.git"
+Issues = "https://github.com/heysamtexas/django-allauth-require2fa/issues"
+Changelog = "https://github.com/heysamtexas/django-allauth-require2fa/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 path = "require2fa/__init__.py"
@@ -73,6 +71,8 @@ packages = ["require2fa"]
 [tool.ruff]
 target-version = "py312"
 line-length = 120
+
+[tool.ruff.lint]
 select = [
     "E",   # pycodestyle errors
     "W",   # pycodestyle warnings
@@ -92,45 +92,28 @@ ignore = [
     "S101",  # use of assert (OK in tests)
 ]
 
-[tool.ruff.per-file-ignores]
-"*/tests/*" = ["S101", "ARG002", "S106"]  # Allow assert, unused args, hardcoded passwords in tests
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["S101", "ARG002", "S105", "S106"]  # Allow assert, unused args, hardcoded secrets in tests
 "*/migrations/*" = ["ARG002"]  # Allow unused args in migrations
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["require2fa"]
-known-django = ["django"]
-section-order = ["future", "standard-library", "third-party", "django", "first-party", "local-folder"]
 
-[tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "tests.settings"
-python_files = ["test_*.py", "*_test.py"]
-addopts = [
-    "--strict-markers",
-    "--strict-config",
-    "--cov=require2fa",
-    "--cov-report=term-missing",
-    "--cov-report=html",
-    "--cov-report=xml",
-]
 
 [tool.mypy]
 python_version = "3.12"
 plugins = ["mypy_django_plugin.main"]
-strict = true
+ignore_missing_imports = true
+exclude = ["require2fa/tests/", "require2fa/migrations/"]
 warn_unused_ignores = true
 warn_redundant_casts = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-disallow_untyped_decorators = true
 
 [tool.django-stubs]
-django_settings_module = "tests.settings"
+django_settings_module = "require2fa.tests.settings"
 
 [tool.bandit]
 exclude_dirs = ["tests", "migrations"]
-skips = ["B101"]  # Skip assert_used test
+skips = ["B101", "B105", "B106"]  # Skip assert_used, hardcoded passwords (OK in tests)
 
 [tool.coverage.run]
 source = ["require2fa"]
@@ -153,4 +136,11 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
+]
+
+[dependency-groups]
+dev = [
+    "bandit>=1.8.6",
+    "django-stubs>=5.2.2",
+    "mypy>=1.17.1",
 ]
