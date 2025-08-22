@@ -20,7 +20,7 @@ jobs:
     
     steps:
       - name: Validate PR Title
-        uses: amannn/action-semantic-pull-request@v5
+        uses: amannn/action-semantic-pull-request@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -87,7 +87,14 @@ jobs:
           # Validate each commit message
           git log --format="%H %s" $BASE_SHA..HEAD | while read -r sha message; do
             echo "🔍 Validating commit $sha: $message"
-            if ! echo "$message" | uv tool run commitizen check --rev-range $sha; then
+            
+            # Skip validation for merge commits (they have a specific format)
+            if [[ "$message" =~ ^Merge.* ]]; then
+              echo "⏭️  Skipping merge commit validation"
+              continue
+            fi
+            
+            if ! echo "$message" | uv tool run cz check --rev-range $sha; then
               echo "❌ Invalid commit message format: $message"
               echo ""
               echo "📝 Commit messages should follow the conventional commits format:"
