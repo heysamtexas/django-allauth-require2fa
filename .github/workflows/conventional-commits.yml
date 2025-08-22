@@ -94,7 +94,7 @@ jobs:
               continue
             fi
             
-            if ! echo "$message" | uv tool run cz check --rev-range $sha; then
+            if ! echo "$message" | uv tool run --from commitizen cz check; then
               echo "❌ Invalid commit message format: $message"
               echo ""
               echo "📝 Commit messages should follow the conventional commits format:"
